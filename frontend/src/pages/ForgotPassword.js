@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../utils/api';
 import { Link } from 'react-router-dom';
-import { KeyRound } from 'lucide-react';
+
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');

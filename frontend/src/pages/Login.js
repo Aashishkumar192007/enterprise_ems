@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { loginSuccess } from '../redux/authSlice';
 import api from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { LogIn } from 'lucide-react';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');

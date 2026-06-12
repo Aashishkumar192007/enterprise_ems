@@ -36,8 +36,8 @@ The Enterprise EMS is a comprehensive solution designed to streamline HR and org
 
 ## Deployment URLs
 - **Source Code GitHub Repository**: https://github.com/Aashishkumar192007/enterprise_ems
-- **Live Frontend URL**: https://employee-management.vercel.app
-- **Live Backend API URL**: https://employee-api.onrender.com
+- **Live Frontend URL**: https://frontend-pi-olive-29.vercel.app
+- **Live Backend API URL**: https://backend-two-lovat-59.vercel.app/api
 - **Cloud Database (Neon)**: postgresql://user:password@host/db
 
 ## Developer Name

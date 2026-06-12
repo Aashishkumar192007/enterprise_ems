@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import api from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
-import { UserPlus } from 'lucide-react';
+
 
 const Signup = () => {
   const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'User' });

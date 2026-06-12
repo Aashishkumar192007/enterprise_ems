@@ -59,6 +59,7 @@ const Employees = () => {
 
   useEffect(() => {
     fetchEmployees();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, search, sortField, sortOrder]);
 
   const handleSort = (field) => {

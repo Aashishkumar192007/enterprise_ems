@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, Legend, PieChart, Pie, Cell, AreaChart, Area, LineChart, Line, ResponsiveContainer } from 'recharts';
 import api from '../utils/api';
-import { Users, Briefcase, Calendar, ShieldCheck, LogOut } from 'lucide-react';
-import { useDispatch } from 'react-redux';
-import { logout } from '../redux/authSlice';
+import { Users, Briefcase, Calendar } from 'lucide-react';
 
 const COLORS = ['#6366f1', '#ec4899', '#10b981', '#f59e0b'];
 
