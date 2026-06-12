@@ -13,7 +13,22 @@ const app = express();
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'https://employee-management.vercel.app',
+  origin: function (origin, callback) {
+    // Allow requests with no origin (mobile apps, curl, Postman)
+    if (!origin) return callback(null, true);
+    const allowed = [
+      'https://frontend-pi-olive-29.vercel.app',
+      'https://frontend-bu2o84arw-aashish-s-projects84.vercel.app',
+      'https://backend-two-lovat-59.vercel.app',
+      process.env.FRONTEND_URL,
+      'http://localhost:3000',
+    ].filter(Boolean);
+    if (allowed.some(a => origin.startsWith(a)) || origin.endsWith('.vercel.app')) {
+      callback(null, true);
+    } else {
+      callback(null, true); // allow all for now during development
+    }
+  },
   credentials: true
 }));
 app.use(express.json());
