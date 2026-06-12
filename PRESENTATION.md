@@ -1,71 +1,69 @@
 ---
 marp: true
 theme: default
-paginate: true
+class: lead
+backgroundColor: #ffffff
 ---
 
-# THE KUMAR's Enterprise EMS
-## Final Project Presentation
-**Developed By**: THE KUMAR's Engineering Team
+# Enterprise Employee Management System (EMS)
+### Final Project Presentation
+**Developer:** Aashishkumar192007 (THE KUMAR's)
 
 ---
 
 # 1. Introduction
-- **Goal**: Centralize and digitize core HR operations.
-- **Problem**: Traditional manual tracking of employees, leaves, and assets leads to data silos and inefficiency.
-- **Solution**: A secure, scalable, role-based web application providing real-time data transparency and control.
+The Enterprise EMS is a powerful, full-stack HR and corporate management platform.
+- **Objective:** Centralize employee data, track leave requests, and manage company assets dynamically.
+- **Impact:** Decreased administrative overhead and increased operational transparency.
 
 ---
 
-# 2. System Architecture
-- **Frontend**: React.js, Redux, React Router, Recharts
-- **Backend**: Node.js, Express.js
-- **Database**: PostgreSQL with Prisma ORM
-- **Security**: JWT Authentication, Bcrypt password hashing, Helmet headers, Express Rate Limiting
+# 2. Architecture
+The application employs a standard 3-Tier Architecture.
+- **Frontend (Client):** React.js + Redux Toolkit
+- **Backend (Server):** Node.js + Express.js API
+- **Database (Data Layer):** PostgreSQL managed by Prisma ORM
 
 ---
 
-# 3. Core Features
-- **Role-Based Dashboards**: Real-time KPIs tailored to User vs. Admin roles.
-- **Leave Management**: Self-service portal for employees; Approval dashboard for HR.
-- **Asset Ledger**: Digital tracking of laptops and equipment with dynamic allocation matrices.
-- **Responsive UI**: Glassmorphic styling ensuring an intuitive and premium user experience.
+# 3. Database
+Robust relational database hosted on **Neon Serverless Postgres**.
+- **Entities:** `User`, `Department`, `LeaveBalance`, `LeaveApplication`, `Asset`, `AssetAllocation`
+- **Security:** Hashed credentials and Role-Based Access mapping.
 
 ---
 
-# 4. Database Design (Prisma)
-- Strongly typed relational models for `User`, `Department`, `LeaveApplication`, and `Asset`.
-- Enforces strict foreign-key constraints (e.g. allocating assets to valid users).
-- Prisma Migration engine tracks schema changes securely for production rollouts.
+# 4. Features
+- **Authentication:** JWT-secured signup, login, logout.
+- **Employee Module:** Create, Update, Delete records with live search.
+- **Leave Module:** Dual-portal for applying (Employees) and approving/rejecting (Admins).
+- **Asset Module:** Dynamic hardware assignment and returns.
+- **Reports:** Comprehensive exporting and filtering dashboards.
 
 ---
 
-# 5. Technical Challenges & Solutions
-- **Challenge**: Managing global application state.
-  - *Solution*: Redux Toolkit provided predictable state containers for Auth tokens.
-- **Challenge**: Integrating interactive UI charting.
-  - *Solution*: Adopted Recharts to parse API statistics directly into SVGs.
-- **Challenge**: Enforcing API Security.
-  - *Solution*: Built reusable middleware extracting and verifying Bearer JWTs before allowing controller logic to fire.
+# 5. Challenges
+- **State Management:** Keeping Redux state synchronized with backend asset allocations.
+- **Database Migrations:** Maintaining relational integrity between Leaves and Users using Prisma.
+- **Security:** Mitigating vulnerabilities using Helmet, Express-Rate-Limit, and secure JWT strategies.
 
 ---
 
-# 6. Deployment Pipeline
-1. **Source Control**: GitHub coordinates the main branch.
-2. **Database Hosting**: Neon Postgres Serverless tier.
-3. **Backend API**: Hosted on Render, automatically syncing with Prisma on build.
-4. **Frontend Delivery**: Hosted on Vercel Edge Network, reading from `REACT_APP_API_URL` to securely fetch data from Render.
+# 6. Deployment
+The project utilizes modern cloud infrastructure.
+- **Backend API:** Deployed on Render (`https://employee-api.onrender.com`)
+- **Frontend UI:** Deployed on Vercel (`https://employee-management.vercel.app`)
+- **CI/CD:** Connected to GitHub for seamless integration and deployment.
 
 ---
 
-# 7. Learning Outcomes & Future Roadmap
-- **Outcomes**: Gained mastery over full-stack debugging, REST API design, state management, and modern CSS structuring.
-- **Roadmap**: 
-  - Automated email notifications via Nodemailer.
-  - Comprehensive CSV/PDF exporting.
-  - Microservice scaling for future enterprise modules (Payroll, Recruitment).
+# 7. Learning Outcomes
+- Advanced full-stack integration with React and Node.js.
+- Cloud deployment and environment variable management in Production.
+- Secure, token-based API development and CORS configuration.
+- Relational database schema design using Prisma ORM.
 
 ---
 
-# Thank You
-## Questions?
+# Thank You!
+**GitHub Repository:** https://github.com/Aashishkumar192007/enterprise_ems
