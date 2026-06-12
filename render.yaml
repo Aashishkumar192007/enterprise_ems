@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: employee-management-system-api
+    env: node
+    buildCommand: "cd backend && npm install && npx prisma generate"
+    startCommand: "cd backend && npm start"
+    envVars:
+      - key: DATABASE_URL
+        value: postgresql://neondb_owner:npg_m5sc8hHLeoTp@ep-fancy-wildflower-aipx1k1i.c-4.us-east-1.aws.neon.tech/neondb?sslmode=require
+      - key: JWT_SECRET
+        value: enterprise_super_secret_key_2026
+      - key: NODE_ENV
+        value: production
