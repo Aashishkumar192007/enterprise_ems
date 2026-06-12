@@ -1,0 +1,201 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  Admin
+  HR
+  Manager
+  User
+}
+
+model User {
+  id               Int               @id @default(autoincrement())
+  name             String
+  email            String            @unique
+  password         String
+  role             Role              @default(User)
+  verified         Boolean           @default(false)
+  passwordResets   PasswordReset[]
+  employeeProfile  EmployeeProfile?
+  notifications    Notification[]
+  leaveApplications LeaveApplication[]
+  assetAllocations  AssetAllocation[]
+  approvalHistories ApprovalHistory[] // for leaves they approved
+  attendances       Attendance[]
+}
+
+model PasswordReset {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  token      String   @unique
+  expires_at DateTime
+  user       User     @relation(fields: [user_id], references: [id])
+}
+
+model Department {
+  id               Int               @id @default(autoincrement())
+  department_name  String            @unique
+  employeeProfiles EmployeeProfile[]
+}
+
+model EmployeeProfile {
+  id            Int             @id @default(autoincrement())
+  user_id       Int             @unique
+  department_id Int
+  phone         String?
+  address       String?
+  designation   String?
+  salary        Float?
+  user          User            @relation(fields: [user_id], references: [id])
+  department    Department      @relation(fields: [department_id], references: [id])
+  skills        EmployeeSkill[]
+}
+
+model Skill {
+  id         Int             @id @default(autoincrement())
+  skill_name String          @unique
+  employees  EmployeeSkill[]
+}
+
+model EmployeeSkill {
+  employee_profile_id Int
+  skill_id            Int
+  employeeProfile     EmployeeProfile @relation(fields: [employee_profile_id], references: [id])
+  skill               Skill           @relation(fields: [skill_id], references: [id])
+
+  @@id([employee_profile_id, skill_id])
+}
+
+model LeaveType {
+  id             Int              @id @default(autoincrement())
+  type_name      String           @unique
+  balances       LeaveBalance[]
+  applications   LeaveApplication[]
+}
+
+model LeaveBalance {
+  id            Int       @id @default(autoincrement())
+  user_id       Int
+  leave_type_id Int
+  balance       Int       @default(0)
+  leaveType     LeaveType @relation(fields: [leave_type_id], references: [id])
+
+  @@unique([user_id, leave_type_id])
+}
+
+enum LeaveStatus {
+  Pending
+  Approved
+  Rejected
+}
+
+model LeaveApplication {
+  id            Int               @id @default(autoincrement())
+  user_id       Int
+  leave_type_id Int
+  start_date    DateTime
+  end_date      DateTime
+  reason        String?
+  status        LeaveStatus       @default(Pending)
+  user          User              @relation(fields: [user_id], references: [id])
+  leaveType     LeaveType         @relation(fields: [leave_type_id], references: [id])
+  approvals     ApprovalHistory[]
+}
+
+model ApprovalHistory {
+  id                  Int              @id @default(autoincrement())
+  leave_application_id Int
+  approver_id         Int
+  action              LeaveStatus
+  comments            String?
+  created_at          DateTime         @default(now())
+  leaveApplication    LeaveApplication @relation(fields: [leave_application_id], references: [id])
+  approver            User             @relation(fields: [approver_id], references: [id])
+}
+
+model Asset {
+  id           Int               @id @default(autoincrement())
+  asset_name   String
+  asset_type   String
+  serial_number String           @unique
+  allocations  AssetAllocation[]
+  history      AssetHistory[]
+}
+
+model AssetAllocation {
+  id              Int       @id @default(autoincrement())
+  asset_id        Int
+  user_id         Int
+  allocated_date  DateTime  @default(now())
+  return_date     DateTime?
+  asset           Asset     @relation(fields: [asset_id], references: [id])
+  user            User      @relation(fields: [user_id], references: [id])
+}
+
+model AssetHistory {
+  id          Int      @id @default(autoincrement())
+  asset_id    Int
+  action      String   // e.g., 'Allocated', 'Returned', 'Maintenance'
+  notes       String?
+  created_at  DateTime @default(now())
+  asset       Asset    @relation(fields: [asset_id], references: [id])
+}
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  table_name  String
+  action_type String
+  old_data    Json?
+  new_data    Json?
+  created_at  DateTime @default(now())
+}
+
+model Notification {
+  id         Int      @id @default(autoincrement())
+  user_id    Int
+  title      String
+  message    String
+  is_read    Boolean  @default(false)
+  created_at DateTime @default(now())
+  user       User     @relation(fields: [user_id], references: [id])
+}
+
+model Job {
+  id          Int              @id @default(autoincrement())
+  title       String
+  description String
+  location    String
+  department  String
+  is_active   Boolean          @default(true)
+  created_at  DateTime         @default(now())
+  applications JobApplication[]
+}
+
+model JobApplication {
+  id           Int      @id @default(autoincrement())
+  job_id       Int
+  name         String
+  email        String
+  cover_letter String?
+  status       String   @default("Pending") // Pending, Reviewed, Rejected, Hired
+  created_at   DateTime @default(now())
+  job          Job      @relation(fields: [job_id], references: [id])
+}
+
+model Attendance {
+  id         Int       @id @default(autoincrement())
+  user_id    Int
+  date       DateTime  // stored as YYYY-MM-DD at 00:00:00
+  clock_in   DateTime?
+  clock_out  DateTime?
+  status     String    @default("Present") // Present, Absent, Half-Day
+  user       User      @relation(fields: [user_id], references: [id])
+
+  @@unique([user_id, date])
+}
