@@ -39,6 +39,15 @@ app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'UP' });
 });
 
+// Base Routes for direct browser visits
+app.get('/', (req, res) => {
+  res.status(200).json({ message: "Welcome to THE KUMAR's EMS API. Access /api-docs for documentation." });
+});
+
+app.get('/api', (req, res) => {
+  res.status(200).json({ message: "THE KUMAR's EMS API is running.", version: "1.0.0" });
+});
+
 // Rate limiting
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
