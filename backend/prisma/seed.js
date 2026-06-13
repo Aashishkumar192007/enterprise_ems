@@ -239,6 +239,79 @@ async function main() {
   }
   console.log('Notifications seeded');
 
+  // --- GROUPS ---
+  const engGroup = await prisma.group.upsert({
+    where: { name: 'Engineering Team' },
+    update: {},
+    create: { name: 'Engineering Team', description: 'Software Development Team' }
+  });
+  const hrGroup = await prisma.group.upsert({
+    where: { name: 'HR Department' },
+    update: {},
+    create: { name: 'HR Department', description: 'Human Resources & Admin' }
+  });
+
+  // --- GROUP MEMBERS ---
+  await prisma.groupMember.upsert({
+    where: { group_id_user_id: { group_id: engGroup.id, user_id: manager.id } },
+    update: {},
+    create: { group_id: engGroup.id, user_id: manager.id, role: 'Lead' }
+  });
+  await prisma.groupMember.upsert({
+    where: { group_id_user_id: { group_id: engGroup.id, user_id: emp1.id } },
+    update: {},
+    create: { group_id: engGroup.id, user_id: emp1.id, role: 'Member' }
+  });
+  await prisma.groupMember.upsert({
+    where: { group_id_user_id: { group_id: hrGroup.id, user_id: hr.id } },
+    update: {},
+    create: { group_id: hrGroup.id, user_id: hr.id, role: 'Lead' }
+  });
+
+  console.log('Groups & Memberships seeded');
+
+  // --- TASKS ---
+  await prisma.task.createMany({
+    data: [
+      {
+        title: 'Implement Authentication',
+        description: 'Set up JWT based auth for the backend.',
+        status: 'Done',
+        priority: 'High',
+        created_by: manager.id,
+        assigned_to: emp1.id,
+        group_id: engGroup.id,
+      },
+      {
+        title: 'Fix Leave Balance Bug',
+        description: 'Users are reporting incorrect leave balances on dashboard.',
+        status: 'InProgress',
+        priority: 'Urgent',
+        created_by: admin.id,
+        assigned_to: emp1.id,
+        group_id: engGroup.id,
+      },
+      {
+        title: 'Review Q3 Performance Reports',
+        description: 'Evaluate employee performance metrics for Q3.',
+        status: 'Todo',
+        priority: 'Medium',
+        created_by: owner.id,
+        assigned_to: hr.id,
+        group_id: hrGroup.id,
+      },
+      {
+        title: 'Update React to version 18',
+        description: 'Migrate the frontend to React 18 and fix any breaking changes.',
+        status: 'Todo',
+        priority: 'Low',
+        created_by: manager.id,
+        group_id: engGroup.id,
+      }
+    ]
+  });
+  console.log('Tasks seeded');
+
   console.log('\n✅ Seed completed successfully!');
   console.log('Admin:   admin@thekumars.com   / admin123');
   console.log('Owner:   owner@thekumars.com   / owner123');

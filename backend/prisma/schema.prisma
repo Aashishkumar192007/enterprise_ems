@@ -28,6 +28,9 @@ model User {
   assetAllocations  AssetAllocation[]
   approvalHistories ApprovalHistory[] // for leaves they approved
   attendances       Attendance[]
+  createdTasks      Task[]          @relation("CreatedTasks")
+  assignedTasks     Task[]          @relation("AssignedTasks")
+  groupMemberships  GroupMember[]
 }
 
 model PasswordReset {
@@ -198,4 +201,58 @@ model Attendance {
   user       User      @relation(fields: [user_id], references: [id])
 
   @@unique([user_id, date])
+}
+
+// ─── TASK TRACKING ──────────────────────────────────────────────────────────────
+
+enum TaskStatus {
+  Todo
+  InProgress
+  Review
+  Done
+}
+
+enum TaskPriority {
+  Low
+  Medium
+  High
+  Urgent
+}
+
+model Task {
+  id           Int          @id @default(autoincrement())
+  title        String
+  description  String?
+  status       TaskStatus   @default(Todo)
+  priority     TaskPriority @default(Medium)
+  due_date     DateTime?
+  created_by   Int
+  assigned_to  Int?
+  group_id     Int?
+  created_at   DateTime     @default(now())
+  updated_at   DateTime     @updatedAt
+  creator      User         @relation("CreatedTasks", fields: [created_by], references: [id])
+  assignee     User?        @relation("AssignedTasks", fields: [assigned_to], references: [id])
+  group        Group?       @relation(fields: [group_id], references: [id])
+}
+
+// ─── GROUPS / TEAMS ─────────────────────────────────────────────────────────────
+
+model Group {
+  id          Int           @id @default(autoincrement())
+  name        String        @unique
+  description String?
+  created_at  DateTime      @default(now())
+  members     GroupMember[]
+  tasks       Task[]
+}
+
+model GroupMember {
+  group_id Int
+  user_id  Int
+  role     String    @default("Member") // Member, Lead
+  group    Group     @relation(fields: [group_id], references: [id])
+  user     User      @relation(fields: [user_id], references: [id])
+
+  @@id([group_id, user_id])
 }

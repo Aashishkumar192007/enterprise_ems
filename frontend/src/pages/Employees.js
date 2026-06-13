@@ -192,9 +192,11 @@ const Employees = () => {
                 <th style={{ padding: '1rem', cursor: 'pointer' }} onClick={() => handleSort('email')}>
                   Email {sortField === 'email' && (sortOrder === 'asc' ? <ChevronUp size={14}/> : <ChevronDown size={14}/>)}
                 </th>
-                <th style={{ padding: '1rem', cursor: 'pointer' }} onClick={() => handleSort('salary')}>
-                  Salary {sortField === 'salary' && (sortOrder === 'asc' ? <ChevronUp size={14}/> : <ChevronDown size={14}/>)}
-                </th>
+                {isAdminOrHR && (
+                  <th style={{ padding: '1rem', cursor: 'pointer' }} onClick={() => handleSort('salary')}>
+                    Salary {sortField === 'salary' && (sortOrder === 'asc' ? <ChevronUp size={14}/> : <ChevronDown size={14}/>)}
+                  </th>
+                )}
                 {isAdminOrHR && <th style={{ padding: '1rem' }}>Actions</th>}
               </tr>
             </thead>
@@ -207,7 +209,7 @@ const Employees = () => {
                     <div style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>{emp.employeeProfile?.designation || 'N/A'}</div>
                   </td>
                   <td style={{ padding: '1rem' }}>{emp.email}</td>
-                  <td style={{ padding: '1rem' }}>${emp.employeeProfile?.salary?.toLocaleString() || '0'}</td>
+                  {isAdminOrHR && <td style={{ padding: '1rem' }}>${emp.employeeProfile?.salary?.toLocaleString() || '0'}</td>}
                   {isAdminOrHR && (
                     <td style={{ padding: '1rem', display: 'flex', gap: '0.5rem' }}>
                       <button onClick={() => openModal(emp)} className="btn btn-secondary" style={{ padding: '0.3rem 0.5rem' }} title="Edit"><Edit2 size={14}/></button>

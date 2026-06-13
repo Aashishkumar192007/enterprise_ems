@@ -59,6 +59,8 @@ app.use('/api/dashboard', require('./routes/dashboardRoutes'));
 app.use('/api/reports', require('./routes/reportRoutes'));
 app.use('/api/jobs', require('./routes/jobRoutes'));
 app.use('/api/attendance', require('./routes/attendanceRoutes'));
+app.use('/api/tasks', require('./routes/taskRoutes'));
+app.use('/api/groups', require('./routes/groupRoutes'));
 
 // Global Error Handler
 app.use(errorHandler);

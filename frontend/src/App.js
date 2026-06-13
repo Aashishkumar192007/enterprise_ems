@@ -12,6 +12,8 @@ import ProtectedRoute from './components/ProtectedRoute';
 
 import Landing from './pages/Landing';
 import Careers from './pages/Careers';
+import Tasks from './pages/Tasks';
+import Groups from './pages/Groups';
 
 function App() {
   return (
@@ -31,6 +33,8 @@ function App() {
             <Route path="/employees" element={<Employees />} />
             <Route path="/leaves" element={<Leaves />} />
             <Route path="/assets" element={<Assets />} />
+            <Route path="/tasks" element={<Tasks />} />
+            <Route path="/groups" element={<Groups />} />
           </Route>
         </Route>
         

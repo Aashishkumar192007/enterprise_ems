@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.get('/', roleMiddleware('Admin', 'HR', 'Manager'), employeeController.getAllEmployees);
+router.get('/', employeeController.getAllEmployees);
 router.get('/:id', employeeController.getEmployeeById);
 
 // Only Admin or HR can create/update/delete employees

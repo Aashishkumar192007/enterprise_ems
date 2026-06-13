@@ -19,6 +19,8 @@ const Sidebar = () => {
     { name: 'Employees', path: '/employees', icon: <Users size={20} /> },
     { name: 'Leaves', path: '/leaves', icon: <Calendar size={20} /> },
     { name: 'Assets', path: '/assets', icon: <Laptop size={20} /> },
+    { name: 'Tasks', path: '/tasks', icon: <LayoutDashboard size={20} /> },
+    { name: 'Groups', path: '/groups', icon: <Users size={20} /> },
   ];
 
   return (
