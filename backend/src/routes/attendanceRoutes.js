@@ -1,11 +1,35 @@
 const express = require('express');
 const { PrismaClient } = require('@prisma/client');
-const { authMiddleware } = require('../middleware/authMiddleware');
+const { authMiddleware, roleMiddleware } = require('../middleware/authMiddleware');
 
 const prisma = new PrismaClient();
 const router = express.Router();
 
 router.use(authMiddleware);
+
+// Get all attendance (Admin/HR/Manager)
+router.get('/', roleMiddleware('Admin', 'HR', 'Manager'), async (req, res) => {
+  try {
+    const { date } = req.query;
+    let queryDate = new Date();
+    if (date) {
+      queryDate = new Date(date);
+    }
+    queryDate.setHours(0, 0, 0, 0);
+
+    const records = await prisma.attendance.findMany({
+      where: { date: queryDate },
+      include: {
+        user: { select: { id: true, name: true, email: true, role: true } }
+      },
+      orderBy: { user: { name: 'asc' } }
+    });
+
+    res.json({ success: true, data: records });
+  } catch (err) {
+    res.status(500).json({ success: false, message: 'Failed to fetch attendance records' });
+  }
+});
 
 // Clock in
 router.post('/clock-in', async (req, res) => {

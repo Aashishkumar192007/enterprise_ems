@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, Calendar, Laptop, LogOut } from 'lucide-react';
+import { LayoutDashboard, Users, Calendar, Laptop, LogOut, Clock } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from '../redux/authSlice';
 
@@ -19,6 +19,7 @@ const Sidebar = () => {
     { name: 'Employees', path: '/employees', icon: <Users size={20} /> },
     { name: 'Leaves', path: '/leaves', icon: <Calendar size={20} /> },
     { name: 'Assets', path: '/assets', icon: <Laptop size={20} /> },
+    { name: 'Attendance', path: '/attendance', icon: <Clock size={20} /> },
     { name: 'Tasks', path: '/tasks', icon: <LayoutDashboard size={20} /> },
     { name: 'Groups', path: '/groups', icon: <Users size={20} /> },
   ];
