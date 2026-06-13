@@ -21,7 +21,9 @@ const Groups = () => {
   const [msg, setMsg] = useState('');
 
   // Pagination (assuming standard page/limit if needed, right now we just render all fetched)
+  // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const limit = 10;
   // If groups pagination is supported in backend later, this will be used.
 

@@ -22,7 +22,9 @@ const Tasks = () => {
   const [msg, setMsg] = useState('');
 
   // Pagination
+  // eslint-disable-next-line no-unused-vars
   const [page, setPage] = useState(1);
+  // eslint-disable-next-line no-unused-vars
   const [totalPages, setTotalPages] = useState(1);
 
   const fetchTasks = async () => {
